@@ -1,0 +1,6 @@
+#ifndef SAMPLEOVERLAYER_H_
+#define SAMPLEOVERLAYER_H_
+
+
+
+#endif // SAMPLEOVERLAYER_H_

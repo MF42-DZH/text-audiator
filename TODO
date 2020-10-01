@@ -1,3 +1,8 @@
 [ ] Complete basic functionality
+    [ ] Reading and parsing the text input
+    [ ] Reading and parsing the RIFF WAVE input
+    [ ] Overlaying sounds
+    [ ] Outputting a RIFF WAVE file
 [ ] Make argument parsing compatible on MinGW
-[ ] Support other formats other than RIFF WAVE
+    [ ] Switch from argp to getopt
+[ ] Support other formats other than RIFF WAVE (?)

@@ -1,8 +1,9 @@
 # Ignore executables
 *.o
 
-# Ignore wave files used for test purposes
+# Ignore text and wave files used for test purposes
 *.wav
+*.txt
 
 # Ignore build folder and exec except for readme
 build/*
