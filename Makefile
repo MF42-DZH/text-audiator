@@ -1,5 +1,5 @@
 CC     = gcc
-CFLAGS = -Ofast -std=c18 -Wall -Wextra
+CFLAGS = -O2 -std=c18 -Wall -Wextra
 TARGET = text-audiator
 OBJS   = main wavcreate wavread
 
