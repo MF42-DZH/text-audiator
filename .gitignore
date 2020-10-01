@@ -4,6 +4,7 @@
 # Ignore wave files used for test purposes
 *.wav
 
-# Ignore build folder except for readme
+# Ignore build folder and exec except for readme
 build/*
 !build/readme.txt
+text-audiator
