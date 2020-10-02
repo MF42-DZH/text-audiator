@@ -28,7 +28,6 @@ int read_file( FILE* file, wave_info_t* info_struct ) {
 
     // Get filesize
     memcpy( &( info_struct->file_size ), buffer + 4, 4 );
-    // info_struct->file_size = endianness_swap_uint32( info_struct->file_size );
 
     // Get format chunk
     fread( buffer, sizeof( char ), 24, file );
@@ -45,13 +44,6 @@ int read_file( FILE* file, wave_info_t* info_struct ) {
     memcpy( &( info_struct->block_align ), buffer + 20, 2 );
     memcpy( &( info_struct->bit_depth ), buffer + 22, 2 );
 
-    // info_struct->compression_code  = endianness_swap_uint16( info_struct->compression_code  );
-    // info_struct->channels          = endianness_swap_uint16( info_struct->channels          );
-    // info_struct->sample_rate       = endianness_swap_uint32( info_struct->sample_rate       );
-    // info_struct->average_byte_rate = endianness_swap_uint32( info_struct->average_byte_rate );
-    // info_struct->block_align       = endianness_swap_uint16( info_struct->block_align       );
-    // info_struct->bit_depth         = endianness_swap_uint16( info_struct->bit_depth         );
-
     // Program only accepts uncompressed PCM
     if ( info_struct->compression_code != 1 ) {
         rewind( file );
@@ -61,6 +53,12 @@ int read_file( FILE* file, wave_info_t* info_struct ) {
 
     // Get data length
     fread( buffer, sizeof( char ), 8, file );
+    if ( strncmp( "data", buffer, 4 ) != 0 ) {
+        rewind( file );
+        printf( "[WAVEREAD] Data chunk is missing or misplaced.\n" );
+        return IO_FAILURE;
+    }
+
     memcpy( &( info_struct->sample_data_length ), buffer + 4, 4 );
 
     if ( info_struct->sample_data_length <= 0 ) {
