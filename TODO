@@ -1,4 +1,5 @@
 [ ] Complete basic functionality
+    [x] Parse arguments for paths
     [ ] Reading and parsing the text input
     [x] Reading and parsing the RIFF WAVE input
     [ ] Overlaying sounds (sample processing)
