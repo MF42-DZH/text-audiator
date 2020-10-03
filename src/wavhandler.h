@@ -22,9 +22,15 @@ typedef struct {
     uint16_t bit_depth;
     uint32_t sample_data_length;
 
-    char** channel_0_data_ptr;
-    char** channel_1_data_ptr;
+    char* channel_0_data_ptr;
+    char* channel_1_data_ptr;
 } wave_info_t;
+
+// Free up memory
+static void free_sample_data( wave_info_t* file ) {
+    if ( file->channel_0_data_ptr != NULL ) free( file->channel_0_data_ptr );
+    if ( file->channel_1_data_ptr != NULL ) free( file->channel_1_data_ptr );
+}
 
 // Endian-ness swapper
 static uint16_t endianness_swap_uint16( uint16_t n ) {
@@ -40,6 +46,6 @@ static uint32_t endianness_swap_uint32( uint32_t n ) {
  *     This section is dedicated to functions and structures for reading wave files
  */
 
-int read_file( FILE* file, wave_info_t* info_struct );
+int get_wave_file_data( FILE* file, wave_info_t* info_struct );
 
 #endif // WAVHANDLER_H_

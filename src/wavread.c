@@ -1,6 +1,6 @@
 #include "wavhandler.h"
 
-int read_file( FILE* file, wave_info_t* info_struct ) {
+int get_wave_file_data( FILE* file, wave_info_t* info_struct ) {
     // Exit if file null
     if ( file == NULL ) {
         printf( "[WAVEREAD] Error: file to read is null.\n" );
@@ -68,27 +68,20 @@ int read_file( FILE* file, wave_info_t* info_struct ) {
     }
 
     // Get data
-    char* ch0dat = NULL;
-    char* ch1dat = NULL;
-
     if ( info_struct->channels == 1 ) {
         // Mono
-        ch0dat = calloc( info_struct->sample_data_length, info_struct->bit_depth / 8 );
-        fread( ch0dat, info_struct->bit_depth / 8, info_struct->sample_data_length, file );
+        info_struct->channel_0_data_ptr = calloc( info_struct->sample_data_length, info_struct->bit_depth / 8 );
+        fread( info_struct->channel_0_data_ptr, info_struct->bit_depth / 8, info_struct->sample_data_length, file );
     } else {
         // Stereo
-        ch0dat = calloc( info_struct->sample_data_length / 2, info_struct->bit_depth / 8 );
-        ch1dat = calloc( info_struct->sample_data_length / 2, info_struct->bit_depth / 8 );
+        info_struct->channel_0_data_ptr = calloc( info_struct->sample_data_length / 2, info_struct->bit_depth / 8 );
+        info_struct->channel_1_data_ptr = calloc( info_struct->sample_data_length / 2, info_struct->bit_depth / 8 );
 
         for ( uint32_t i = 0; i < info_struct->sample_data_length; i += info_struct->bit_depth / 8 ) {
-            for ( int offset = 0; offset < info_struct->bit_depth / 8; ++offset ) ch0dat[ i + offset ] = fgetc( file );
-            for ( int offset = 0; offset < info_struct->bit_depth / 8; ++offset ) ch1dat[ i + offset ] = fgetc( file );
+            for ( int offset = 0; offset < info_struct->bit_depth / 8; ++offset ) info_struct->channel_0_data_ptr[ i + offset ] = fgetc( file );
+            for ( int offset = 0; offset < info_struct->bit_depth / 8; ++offset ) info_struct->channel_1_data_ptr[ i + offset ] = fgetc( file );
         }
     }
-
-    // Assign pointers
-    info_struct->channel_0_data_ptr = &ch0dat;
-    info_struct->channel_1_data_ptr = info_struct->channels == 2 ? &ch1dat : NULL;
 
     // Rewind file
     rewind( file );
