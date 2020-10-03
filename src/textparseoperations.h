@@ -59,14 +59,14 @@ typedef struct {
     uint32_t delay_length_for_letter;
     uint32_t delay_length_for_punctuation;
     uint32_t delay_length_for_newline;
-    uint32_t delay_mode;
-} text_file_info_t;
+    char delay_mode;
+} text_info_t;
 
 // Parse text file
-int parse_text_file( FILE* file, text_file_info_t* info );
+int parse_text_file( FILE* file, text_info_t* info );
 
 // Free file memory
-static void free_text_file( text_file_info_t* info ) {
+static void free_text_file( text_info_t* info ) {
     if ( info->lines != NULL ) free( info->lines );
 }
 

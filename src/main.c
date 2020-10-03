@@ -17,6 +17,8 @@ char text_file_to_read[ 1024 ] = "";
 
 // File info
 wave_info_t input_file;
+wave_info_t output_file;
+text_info_t text_input;
 
 // Verbose toggle
 int use_verbose = 0;
@@ -30,7 +32,7 @@ int read_wave_file() {
         return IO_FAILURE;
     }
 
-    if ( get_wave_file_data( fptr, &input_file ) != IO_SUCCESS ) { 
+    if ( get_wave_file_data( fptr, &input_file ) != IO_SUCCESS ) {
         printf( "ERROR." );
         fclose( fptr );
         return 1;
@@ -38,9 +40,17 @@ int read_wave_file() {
 
     fclose( fptr );  // Close file
 
+    // Copy format details into the output file
+    output_file.compression_code = input_file.compression_code;
+    output_file.channels = input_file.channels;
+    output_file.sample_rate = input_file.sample_rate;
+    output_file.average_byte_rate = input_file.average_byte_rate;
+    output_file.block_align = input_file.block_align;
+    output_file.bit_depth = input_file.bit_depth;
+
     // Get and read file info
     if ( use_verbose ) {
-        printf( "-- File Info of %s --\n", wave_file_to_read );
+        printf( "-- File Info of %s --\n\n", wave_file_to_read );
         printf( " SIZE: %u\n", input_file.file_size );
         printf( "CCODE: %u\n", input_file.compression_code );
         printf( "  CHN: %u\n", input_file.channels );
@@ -54,7 +64,7 @@ int read_wave_file() {
         // Print section of sample data
         uint32_t prev_len = input_file.sample_data_length < 16 ? input_file.sample_data_length : 16;
         uint16_t byte_depth = input_file.bit_depth / 8;
-        printf( "-- Preview of first %u samples' data --\n", prev_len );
+        printf( "-- Preview of first %u samples' data --\n\n", prev_len );
         if ( input_file.channels == 2 ) {
             for ( uint32_t i = 0; i < prev_len; ++i ) {
                 printf( "%02X: ", i );
@@ -78,6 +88,36 @@ int read_wave_file() {
         }
     } else {
         printf( "%s has been loaded.\n", wave_file_to_read );
+    }
+
+    printf( "\n" );  // Spacer
+
+    return 0;
+}
+
+int read_text_file() {
+    FILE* fptr = fopen( text_file_to_read, "r" );
+
+    if ( ferror( fptr ) ) {
+        fptr = NULL;
+        printf( "[TEXTREAD] Error. File does not exist." );
+        return IO_FAILURE;
+    }
+
+    if ( parse_text_file( fptr, &text_input ) != IO_SUCCESS ) {
+        printf( "ERROR." );
+        fclose( fptr );
+        return 1;
+    }
+
+    fclose( fptr );  // Close file
+    
+    if ( use_verbose ) {
+        printf( "-- Text File Info --\n\nLines:\n" );
+        for ( uint32_t i = 0; i < text_input.line_count; ++i ) printf( "%s\n", text_input.lines[ i ] );
+        printf( "\nDelay-Char: %u ns\nDelay-Punc: %u ns\nDelay-Newl: %u ns\n", text_input.delay_length_for_letter, text_input.delay_length_for_punctuation, text_input.delay_length_for_newline );
+    } else {
+        printf( "%s has been loaded.\n", text_file_to_read );
     }
 
     printf( "\n" );  // Spacer
@@ -127,16 +167,23 @@ int main( int argc, char** argv ) {
     SETSTATUS( argp_parse( &argp_str, argc, argv, 0, 0, &file_count ) );
 
     // Verify if INPUT paths are valid
-    if ( strcmp( wave_file_to_read, "" ) == 0 ) {
+    if ( strlen( wave_file_to_read ) <= 0 ) {
         printf( "[MAIN] No WAVE file has been input." );
         return 1;
     }
 
-    // Attempt read of file
+    if ( strlen( wave_file_to_write ) <= 0 ) {
+        printf( "[MAIN] No WAVE file output has been specified." );
+        return 1;
+    }
+
+    // Attempt read of files
     SETSTATUS( read_wave_file() );
+    SETSTATUS( read_text_file() );
 
     // Cleanup
     free_sample_data( &input_file );
+    free_text_file( &text_input );
 
     return status;
 }
