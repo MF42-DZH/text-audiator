@@ -4,8 +4,10 @@
 # Ignore text and wave files used for test purposes
 *.wav
 *.txt
+*.sh
 
 # Ignore build folder and exec except for readme
 build/*
-!build/readme.txt
+!readme.txt
+!build/OBJECT_FILES_GO_HERE
 text-audiator

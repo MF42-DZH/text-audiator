@@ -3,6 +3,7 @@
 
 #include "wavhandler.h"
 #include "sampleoperation.h"
+#include "textparseoperations.h"
 
 #define SETSTATUS(x) status = status == 0 ? x : status
 
@@ -21,7 +22,7 @@ wave_info_t input_file;
 int use_verbose = 0;
 
 int read_wave_file() {
-    FILE* fptr = fopen( wave_file_to_read, "r" );
+    FILE* fptr = fopen( wave_file_to_read, "rb" );
 
     if ( ferror( fptr ) ) {
         fptr = NULL;
@@ -53,7 +54,7 @@ int read_wave_file() {
         // Print section of sample data
         uint32_t prev_len = input_file.sample_data_length < 16 ? input_file.sample_data_length : 16;
         uint16_t byte_depth = input_file.bit_depth / 8;
-        printf( "-- Preview of first %u sample data --\n", prev_len );
+        printf( "-- Preview of first %u samples' data --\n", prev_len );
         if ( input_file.channels == 2 ) {
             for ( uint32_t i = 0; i < prev_len; ++i ) {
                 printf( "%02X: ", i );
@@ -133,6 +134,9 @@ int main( int argc, char** argv ) {
 
     // Attempt read of file
     SETSTATUS( read_wave_file() );
+
+    // Cleanup
+    free_sample_data( &input_file );
 
     return status;
 }

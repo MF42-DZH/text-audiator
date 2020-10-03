@@ -15,5 +15,6 @@ The executable will place itself on the top level path (next to the makefile).
 
 # Status
 
-* **BUILD**: Successful
-* **LAST BUILT**: 2020-10-03 08:25
+* **BUILD (Unix)**: Successful
+* **BUILD (Windows)**: Untested
+* **LAST BUILT**: 2020-10-03 15:50

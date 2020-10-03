@@ -1,7 +1,7 @@
 CC     = gcc
 CFLAGS = -O2 -std=c18 -Wall -Wextra
 TARGET = text-audiator
-OBJS   = main wavcreate wavread
+OBJS   = main wavcreate wavread textparser
 
 mkfile_path := $(abspath $(lastword $(MAKEFILE_LIST)))
 current_dir := $(patsubst %/,%,$(dir $(mkfile_path)))
