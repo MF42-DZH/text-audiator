@@ -28,7 +28,7 @@ int read_wave_file() {
 
     if ( ferror( fptr ) ) {
         fptr = NULL;
-        printf( "[WAVEREAD] Error. File does not exist." );
+        fprintf( stderr, "[WAVEREAD] Error. File does not exist." );
         return IO_FAILURE;
     }
 
@@ -100,7 +100,7 @@ int read_text_file() {
 
     if ( ferror( fptr ) ) {
         fptr = NULL;
-        printf( "[TEXTREAD] Error. File does not exist." );
+        fprintf( stderr, "[TEXTREAD] Error. File does not exist." );
         return IO_FAILURE;
     }
 
@@ -168,12 +168,12 @@ int main( int argc, char** argv ) {
 
     // Verify if INPUT paths are valid
     if ( strlen( wave_file_to_read ) <= 0 ) {
-        printf( "[MAIN] No WAVE file has been input." );
+        fprintf( stderr, "[MAIN] No WAVE file has been input." );
         return 1;
     }
 
     if ( strlen( wave_file_to_write ) <= 0 ) {
-        printf( "[MAIN] No WAVE file output has been specified." );
+        fprintf( stderr, "[MAIN] No WAVE file output has been specified." );
         return 1;
     }
 

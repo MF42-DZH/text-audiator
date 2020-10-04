@@ -3,13 +3,13 @@
 int get_wave_file_data( FILE* file, wave_info_t* info_struct ) {
     // Exit if file null
     if ( file == NULL ) {
-        printf( "[WAVEREAD] Error: file to read is null.\n" );
+        fprintf( stderr, "[WAVEREAD] Error: file to read is null.\n" );
         return IO_FAILURE;
     }
 
     // Exit if info struct null
     if ( info_struct == NULL ) {
-        printf( "[WAVEREAD] WAVE Info struct is null.\n" );
+        fprintf( stderr, "[WAVEREAD] WAVE Info struct is null.\n" );
         return IO_FAILURE;
     }
 
@@ -22,7 +22,7 @@ int get_wave_file_data( FILE* file, wave_info_t* info_struct ) {
     fread( buffer, sizeof( char ), 12, file );
     if ( strncmp( "RIFF", buffer, 4 ) != 0 || strncmp( "WAVE", buffer + 8, 4 ) ) {
         rewind( file );
-        printf( "[WAVEREAD] File is not a RIFF WAVE file.\n" );
+        fprintf( stderr, "[WAVEREAD] File is not a RIFF WAVE file.\n" );
         return IO_FAILURE;
     }
 
@@ -33,7 +33,7 @@ int get_wave_file_data( FILE* file, wave_info_t* info_struct ) {
     fread( buffer, sizeof( char ), 24, file );
     if ( strncmp( "fmt ", buffer, 4 ) != 0 ) {
         rewind( file );
-        printf( "[WAVEREAD] Format chunk is unreadable.\n" );
+        fprintf( stderr, "[WAVEREAD] Format chunk is unreadable.\n" );
         return IO_FAILURE;
     }
 
@@ -47,7 +47,7 @@ int get_wave_file_data( FILE* file, wave_info_t* info_struct ) {
     // Program only accepts uncompressed PCM
     if ( info_struct->compression_code != 1 ) {
         rewind( file );
-        printf( "[WAVEREAD] WAVE file is not an uncompressed PCM file.\n" );
+        fprintf( stderr, "[WAVEREAD] WAVE file is not an uncompressed PCM file.\n" );
         return IO_FAILURE;
     }
 
@@ -55,7 +55,7 @@ int get_wave_file_data( FILE* file, wave_info_t* info_struct ) {
     fread( buffer, sizeof( char ), 8, file );
     if ( strncmp( "data", buffer, 4 ) != 0 ) {
         rewind( file );
-        printf( "[WAVEREAD] Data chunk is missing or misplaced.\n" );
+        fprintf( stderr, "[WAVEREAD] Data chunk is missing or misplaced.\n" );
         return IO_FAILURE;
     }
 
@@ -63,7 +63,7 @@ int get_wave_file_data( FILE* file, wave_info_t* info_struct ) {
 
     if ( info_struct->sample_data_length <= 0 ) {
         rewind( file );
-        printf( "[WAVEREAD] WAVE file data is empty.\n" );
+        fprintf( stderr, "[WAVEREAD] WAVE file data is empty.\n" );
         return IO_FAILURE;
     }
 

@@ -33,7 +33,7 @@ int parse_text_file( FILE* file, text_info_t* info ) {
     lines -= 1;  // Offset for information line at the end
     if ( lines <= 0 ) {
         rewind( file );
-        printf( "[TEXTREAD] There are no text lines.\n" );
+        fprintf( stderr, "[TEXTREAD] There are no text lines.\n" );
         return IO_FAILURE;
     }
 
@@ -66,22 +66,22 @@ int parse_text_file( FILE* file, text_info_t* info ) {
 
     if ( getdelim( &delay_mode, &line_buffer_size, '|', file ) == -1 ) {
         rewind( file );
-        printf( "[TEXTREAD] Info line is malformed. Make sure to use the format n/s|int|int|int|.\n" );
+        fprintf( stderr, "[TEXTREAD] Info line is malformed. Make sure to use the format n/s|int|int|int|.\n" );
         return IO_FAILURE;
     }
     if ( getdelim( &delay_letter, &line_buffer_size, '|', file ) == -1 ) {
         rewind( file );
-        printf( "[TEXTREAD] Info line is malformed. Make sure to use the format n/s|int|int|int|.\n" );
+        fprintf( stderr, "[TEXTREAD] Info line is malformed. Make sure to use the format n/s|int|int|int|.\n" );
         return IO_FAILURE;
     }
     if ( getdelim( &delay_punctuation, &line_buffer_size, '|', file ) == -1 ) {
         rewind( file );
-        printf( "[TEXTREAD] Info line is malformed. Make sure to use the format n/s|int|int|int|.\n" );
+        fprintf( stderr, "[TEXTREAD] Info line is malformed. Make sure to use the format n/s|int|int|int|.\n" );
         return IO_FAILURE;
     }
     if ( getdelim( &delay_newline, &line_buffer_size, '|', file ) == -1 ) {
         rewind( file );
-        printf( "[TEXTREAD] Info line is malformed. Make sure to use the format n/s|int|int|int|.\n" );
+        fprintf( stderr, "[TEXTREAD] Info line is malformed. Make sure to use the format n/s|int|int|int|.\n" );
         return IO_FAILURE;
     }
 
