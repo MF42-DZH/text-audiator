@@ -1,9 +1,7 @@
 [ ] Complete basic functionality
     [x] Parse arguments for paths
-    [ ] Reading and parsing the text input
-    [ ] Reading and parsing the RIFF WAVE input
-        [x] Basic parsing
-        [ ] Differentiating between Signed Integer and Float WAVE files
+    [x] Reading and parsing the text input
+    [x] Reading and parsing the RIFF WAVE input
     [ ] Overlaying sounds (sample processing)
     [ ] Outputting a RIFF WAVE file
 [ ] Make argument parsing compatible on MinGW

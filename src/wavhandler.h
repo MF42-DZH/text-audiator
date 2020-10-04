@@ -32,6 +32,7 @@ static void free_sample_data( wave_info_t* file ) {
     if ( file->channel_1_data_ptr != NULL ) free( file->channel_1_data_ptr );
 }
 
+#ifdef ENDIAN_SWAP_ENABLE
 // Endian-ness swapper
 static uint16_t endianness_swap_uint16( uint16_t n ) {
     return ( n >> 8 ) | ( n << 8 );
@@ -40,6 +41,7 @@ static uint16_t endianness_swap_uint16( uint16_t n ) {
 static uint32_t endianness_swap_uint32( uint32_t n ) {
     return ( ( n >> 24 ) & 0xff ) | ( ( n << 8 ) & 0xff0000 ) | ( ( n >> 8 ) & 0xff00 ) | ( ( n << 24 ) & 0xff000000 );
 }
+#endif
 
 /*
  * WAVE file reading

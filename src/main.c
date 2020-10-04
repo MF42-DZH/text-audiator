@@ -20,8 +20,9 @@ wave_info_t input_file;
 wave_info_t output_file;
 text_info_t text_input;
 
-// Verbose toggle
+// Toggles
 int use_verbose = 0;
+int use_replace_sampling = 0;
 
 int read_wave_file() {
     FILE* fptr = fopen( wave_file_to_read, "rb" );
@@ -138,6 +139,9 @@ static int parse_opt( int key, char* arg, struct argp_state* state ) {
         case 'v':
             use_verbose = 1;
             break;
+        case 'r':
+            use_replace_sampling = 1;
+            break;
         case ARGP_KEY_ARG:
             if ( --( *arg_count ) >= 0 ) strcpy( text_file_to_read, arg );
             break;
@@ -158,6 +162,7 @@ int main( int argc, char** argv ) {
         { "input", 'i', "FILEPATH", 0, "WAVE file to use as input" },
         { "output", 'o', "FILEPATH", 0, "WAVE file to use as input" },
         { "verbose", 'v', 0, OPTION_ARG_OPTIONAL, "Use verbose output" },
+        { "replace-sampling", 'r', 0, OPTION_ARG_OPTIONAL, "Sounds are stopped instead of overlayed" },
         { 0 }
     };
     int file_count = 1;
