@@ -5,6 +5,7 @@
 *.wav
 *.txt
 *.sh
+*.bat
 
 # Ignore build folder and exec except for readme
 build/*

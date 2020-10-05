@@ -188,6 +188,7 @@ int main( int argc, char** argv ) {
 
     // Cleanup
     free_sample_data( &input_file );
+    free_sample_data( &output_file );
     free_text_file( &text_input );
 
     return status;
