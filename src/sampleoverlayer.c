@@ -41,11 +41,7 @@ int create_data( text_info_t* input, wave_info_t wave_input, wave_info_t* wave_o
     uint64_t current_nanoseconds = 0;
     uint64_t next_nanosecond_checkpoint = 0;
 
-    for ( uint32_t line = 0; line < input->line_count; ++line ) {
-        for ( char* chr = input->lines[ line ]; *chr != '\0'; ++chr ) {
-            // what
-        }
-    }
+    // Okay yeah I have no goddamn clue how to do this
 
     // Assign buffer to the output
     wave_output->channel_0_data_ptr = &ch0smpl;
